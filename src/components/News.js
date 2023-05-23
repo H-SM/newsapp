@@ -53,31 +53,18 @@ export default class News extends Component {
 
   render() {
     return (
+      <>
       <div className="container my-3">
         <h2>NewsMonkey - Top headlines</h2>
         <div className="row">
-          <div className="col-md-3">
-          <NewsItem title="my title... " description="the description ..." imageUrl="https://ichef.bbci.co.uk/live-experience/cps/624/cpsprodpb/18446/production/_129789399_microsoftteams-image-4.png" newsUrl="TODO:"/>
-          </div>
-          <div className="col-md-3">
-          <NewsItem title="my title... " description="the description ..."/>
-          </div>
-          <div className="col-md-3">
-          <NewsItem title="my title... " description="the description ..."/>
+          {this.state.articles.map((element)=>{
+            return <div className="col-md-3" key={element.url}>
+            <NewsItem  title={element.title.slice(0,45)} description={element.description.slice(0,88)} imageUrl={element.urlToImage} newsUrl={element.url}/>
+            </div>;
+          })}
           </div>
         </div>
-        <div className="row">
-        <div className="col-md-3">
-        <NewsItem title="my title... " description="the description ..."/>
-        </div>
-        <div className="col-md-3">
-        <NewsItem title="my title... " description="the description ..."/>
-        </div>
-        <div className="col-md-3">
-        <NewsItem title="my title... " description="the description ..."/>
-        </div>
-        </div>
-      </div>
+      </>
     )
   }
 }
