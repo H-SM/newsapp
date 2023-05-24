@@ -8,8 +8,8 @@ export default class NewsItem extends Component {
     // we are destructuring and pulling out our title and description from the props input to the newsItem 
     return (
       <div>
-        <div className="card my-3" style={{width: "18rem"}}>
-          <img src={imageUrl} className="card-img-top" alt="..." />
+        <div className="card my-3" >
+          <img src={imageUrl} className="card-img-top" alt="..."style={{height:"12em",overflow: "hidden"}}/>
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
             <p className="card-text">

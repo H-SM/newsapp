@@ -11,7 +11,7 @@ export default class App extends Component {
     return (
       <div >
         <Navbar/>
-        <News pageSize={10}/>
+        <News pageSize={10} country="in" category="health"/>
       </div>
       // style={{color: "white",backgroundColor: "#042743"}}
     )
