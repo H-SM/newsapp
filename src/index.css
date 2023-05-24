@@ -1,0 +1,20 @@
+.sticky-container {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: #042743;
+    padding:10px 0 ;
+  }
+.sticky-container p{
+    padding-top: 15px;
+  }
+
+.componentSticky {
+    height: 50px;
+  }
+  
+.row {
+    position: relative;
+    z-index: 1;
+  }
+  
