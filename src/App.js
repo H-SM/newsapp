@@ -9,10 +9,11 @@ export default class App extends Component {
   
   render() {
     return (
-      <div style={{color: "white",backgroundColor: "#042743"}}>
+      <div >
         <Navbar/>
-        <News/>
+        <News pageSize={10}/>
       </div>
+      // style={{color: "white",backgroundColor: "#042743"}}
     )
   }
 }
