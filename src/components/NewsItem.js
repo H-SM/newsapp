@@ -4,7 +4,7 @@ export default class NewsItem extends Component {
  
 
   render(props) {
-    let {title, description, imageUrl, newsUrl} = this.props;
+    let {title, description, imageUrl, newsUrl, author, date, source} = this.props;
     // we are destructuring and pulling out our title and description from the props input to the newsItem 
     return (
       <div>
@@ -12,9 +12,9 @@ export default class NewsItem extends Component {
           <img src={imageUrl} className="card-img-top" alt="..."style={{height:"12em",overflow: "hidden"}}/>
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
-            <p className="card-text">
-              {description}...
-            </p>
+            <span className="badge rounded-pill bg-success">{source}</span>
+            <p className="card-text"> {description}...</p>
+            <p className="card-text"><small className="text-muted">By {author?author:"-ANONYMOUS-"}{date?(" on "+(new Date(date).toGMTString())):""}</small></p>
             <a href={newsUrl} target="_blank" rel='noreferrer' className="btn btn-sm btn-dark">
               Read More
             </a>

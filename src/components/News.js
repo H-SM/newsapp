@@ -97,7 +97,7 @@ dc525278bd27404d815bb0708ee6d305&page=${this.state.page + 1}&pageSize=${this.pro
                   title={element.title}
                   description={element.description ? element.description.slice(0, 88) : ''}
                   imageUrl={element.urlToImage ? element.urlToImage : 'https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png'}
-                  newsUrl={element.url}
+                  newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name}
                 />
               </div>
             ))}
