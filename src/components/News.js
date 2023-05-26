@@ -32,17 +32,21 @@ export default class News extends Component {
   }
 
   async updateNews(){
+    this.props.setProgress(10);
     this.setState({loading: true});
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a49d555684594616bc2e44f8568dbbd5&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=043166a63d344b90aab8bfe7e0bda839&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
+    this.props.setProgress(30);
     let parseData = await data.json();
-    console.log(parseData);
+    this.props.setProgress(60);
+
     this.setState({
     articles : parseData.articles, 
     totalResults : parseData.totalResults, 
     totalPage : (Math.ceil(this.state.totalResults/this.props.pageSize)), 
     loading : false
     });
+    this.props.setProgress(100);
   }
   async componentDidMount(){
     // this component will run after render method runs - this is also called cdm 
@@ -58,7 +62,7 @@ export default class News extends Component {
 // this.updateNews();
 //   }
 fetchMoreData = async () => {
-  this.setState({ loading: true, page: this.state.page + 1 }); 
+  this.setState({ loading: true, page: this.state.page + 1 }); // Update the page state before fetching data
   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=043166a63d344b90aab8bfe7e0bda839&page=${this.state.page}&pageSize=${this.props.pageSize}`;
   let data = await fetch(url);
   let parseData = await data.json();
