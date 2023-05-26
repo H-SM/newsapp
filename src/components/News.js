@@ -1,57 +1,49 @@
-import React, { Component } from 'react';
+import React, { useEffect , useState } from 'react';
+//useEffect to replace componentdidmount
 import NewsItem from './NewsItem';
 import Spinner from './spinner';
 import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
 
 
-export default class News extends Component {
+const News =(props) => {
 
-  static defaultProps = {
-    country : "in",
-    pageSize: 10,
-    category: "general"
-  }
-  static propTypes = {
-    country : PropTypes.string.isRequired,
-    pageSize: PropTypes.number,
-    category: PropTypes.string
-  }
-  capitalizeLetter= (string) => {
+
+  const[articles, setArticles] = useState([]);
+  const[loading, setLoading] = useState(false);
+  const[page, setPage] = useState(1);
+  const[totalResults, setTotalResultsArticles] = useState(0);
+  // const[totalPages, setTotalPages] = useState(0);
+
+  
+  const capitalizeLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  constructor(props){
-    super(props);
-    this.state ={
-      articles: [],
-      loading: false,
-      page : 1,
-      totalResults : 0
-    }
-    document.title =(!(this.props.category === 'general')) ?`NewsMonkey - ${this.capitalizeLetter(this.props.category)}`:`NewsMonkey - Get your daily does of News free!`;
-  }
+  
 
-  async updateNews(){
-    this.props.setProgress(10);
-    this.setState({loading: true});
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+  const  updateNews =async () =>{
+    props.setProgress(10);
+    setLoading(true);
+    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
     let data = await fetch(url);
-    this.props.setProgress(30);
+    props.setProgress(30);
     let parseData = await data.json();
-    this.props.setProgress(60);
+    props.setProgress(60);
+    setArticles(parseData.articles);
+    setTotalResultsArticles(parseData.totalResults);
+    // setTotalPages((Math.ceil(totalResults/props.pageSize)));
+    setLoading(false);
+    props.setProgress(100);
+  }
 
-    this.setState({
-    articles : parseData.articles, 
-    totalResults : parseData.totalResults, 
-    totalPage : (Math.ceil(this.state.totalResults/this.props.pageSize)), 
-    loading : false
-    });
-    this.props.setProgress(100);
-  }
-  async componentDidMount(){
-    // this component will run after render method runs - this is also called cdm 
-    this.updateNews();
-  }
+  useEffect(()=>{
+    updateNews();
+    document.title =(!(props.category === 'general')) ?`NewsMonkey - ${capitalizeLetter(props.category)}`:`NewsMonkey - Get your daily does of News free!`;
+  },[]);
+  // async componentDidMount(){
+  //   // this component will run after render method runs - this is also called cdm 
+  //   this.updateNews();
+  // }
 //    handlePrevClick= async ()=>{
 // await this.setState({page : this.state.page - 1});
 //   //the await function fixed up the problem for the 2nd page to not load 
@@ -61,20 +53,20 @@ export default class News extends Component {
 // await this.setState({page : this.state.page + 1});
 // this.updateNews();
 //   }
-fetchMoreData = async () => {
-  this.setState({ loading: true, page: this.state.page + 1 }); // Update the page state before fetching data
-  let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+  const fetchMoreData = async () => {
+    setPage(page + 1 );
+    setLoading(true);
+  // this.setState({ loading: true, page: this.state.page + 1 }); // Update the page state before fetching data
+  let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
   let data = await fetch(url);
   let parseData = await data.json();
-  console.log(parseData);
-  this.setState({
-    articles: this.state.articles.concat(parseData.articles),
-    totalResults: parseData.totalResults,
-    totalPage: Math.ceil(parseData.totalResults / this.props.pageSize),
-    loading: false,
-  });
+  // console.log(parseData);
+  setArticles(articles.concat(parseData.articles));
+  setTotalResultsArticles(parseData.totalResults);
+  // setTotalPages((Math.ceil(totalResults/props.pageSize)));
+  setLoading(false);
+  
 };
-  render() {
     return (
       <>
       {/* <div className="sticky-container">
@@ -94,18 +86,18 @@ fetchMoreData = async () => {
             </button>
           </div>
         </div> */}
-          <h2 className="text-center">NewsMonkey - Top headlines - {this.capitalizeLetter(this.props.category)}</h2>
+          <h2 className="text-center" style={{marginTop: '60px'}}>NewsMonkey - Top headlines - {capitalizeLetter(props.category)}</h2>
           {/* {this.state.loading && <Spinner/>} */}
 
           <InfiniteScroll
-        dataLength={this.state.articles.length}
-        next={this.fetchMoreData}
-        hasMore={this.state.articles !== this.state.totalResults}
-        loader={this.state.loading && <Spinner />}
+        dataLength={articles.length}
+        next={fetchMoreData}
+        hasMore={articles !== totalResults}
+        loader={loading && <Spinner />}
       >
         <div className="container">
           <div className="row">
-            {this.state.articles.map((element, index) => (
+            {articles.map((element, index) => (
               <div className="col-md-3" key={`${element.url}-${index}`}>
                 <NewsItem
                   title={element.title}
@@ -123,5 +115,17 @@ fetchMoreData = async () => {
       </InfiniteScroll>
       </>
     )
-  }
+}
+
+export default News;
+
+News.defaultProps = {
+  country : "in",
+  pageSize: 10,
+  category: "general"
+}
+News.propTypes = {
+  country : PropTypes.string.isRequired,
+  pageSize: PropTypes.number,
+  category: PropTypes.string
 }
