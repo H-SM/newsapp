@@ -3,7 +3,6 @@ import React from "react";
 const NewsItem = (props) => {
  
     let {title, description, imageUrl, newsUrl, author, date, source} = props;
-    // we are destructuring and pulling out our title and description from the props input to the newsItem 
     return (
       <div>
         <div className="card my-3" >
