@@ -1,5 +1,4 @@
 import React, { useEffect , useState } from 'react';
-//useEffect to replace componentdidmount
 import NewsItem from './NewsItem';
 import Spinner from './spinner';
 import PropTypes from 'prop-types';
@@ -13,7 +12,6 @@ const News =(props) => {
   const[loading, setLoading] = useState(false);
   const[page, setPage] = useState(1);
   const[totalResults, setTotalResultsArticles] = useState(0);
-  // const[totalPages, setTotalPages] = useState(0);
 
   
   const capitalizeLetter = (string) => {
@@ -31,7 +29,6 @@ const News =(props) => {
     props.setProgress(60);
     setArticles(parseData.articles);
     setTotalResultsArticles(parseData.totalResults);
-    // setTotalPages((Math.ceil(totalResults/props.pageSize)));
     setLoading(false);
     props.setProgress(100);
   }
@@ -40,54 +37,20 @@ const News =(props) => {
     updateNews();
     document.title =(!(props.category === 'general')) ?`NewsMonkey - ${capitalizeLetter(props.category)}`:`NewsMonkey - Get your daily does of News free!`;
   },[]);
-  // async componentDidMount(){
-  //   // this component will run after render method runs - this is also called cdm 
-  //   this.updateNews();
-  // }
-//    handlePrevClick= async ()=>{
-// await this.setState({page : this.state.page - 1});
-//   //the await function fixed up the problem for the 2nd page to not load 
-//   this.updateNews();
-//   }
-//    handleNextClick= async ()=>{
-// await this.setState({page : this.state.page + 1});
-// this.updateNews();
-//   }
   const fetchMoreData = async () => {
     setPage(page + 1 );
     setLoading(true);
-  // this.setState({ loading: true, page: this.state.page + 1 }); // Update the page state before fetching data
   let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
   let data = await fetch(url);
   let parseData = await data.json();
-  // console.log(parseData);
   setArticles(articles.concat(parseData.articles));
   setTotalResultsArticles(parseData.totalResults);
-  // setTotalPages((Math.ceil(totalResults/props.pageSize)));
   setLoading(false);
   
 };
     return (
       <>
-      {/* <div className="sticky-container">
-          <div className="container d-flex justify-content-between componentSticky">
-            <button
-              type="button"
-              disabled={this.state.page <= 1}
-              className="btn btn-dark"
-              onClick={this.handlePrevClick}
-            >
-              &larr; Previous
-            </button>
-            <p>Page - {this.state.page} / {this.state.totalPage}</p>
-            <button type="button" disabled={this.state.page + 1 > this.state.totalPage}
-            className="btn btn-dark" onClick={this.handleNextClick}>
-              Next &rarr;
-            </button>
-          </div>
-        </div> */}
           <h2 className="text-center" style={{marginTop: '60px'}}>NewsMonkey - Top headlines - {capitalizeLetter(props.category)}</h2>
-          {/* {this.state.loading && <Spinner/>} */}
 
           <InfiniteScroll
         dataLength={articles.length}

@@ -3,7 +3,6 @@ import News from "./components/News";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
-// import About from "../../app-here/src/components/About";
 import LoadingBar from 'react-top-loading-bar';
 
 const App = () =>  {
@@ -36,7 +35,6 @@ const App = () =>  {
           </div>
         </>
       </Router>
-      // style={{color: "white",backgroundColor: "#042743"}}
     );
 }
 
