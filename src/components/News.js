@@ -3,7 +3,7 @@ import NewsItem from './NewsItem';
 import Spinner from './spinner';
 import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import newsicon from './news-icon-16.png'
 
 const News =(props) => {
 
@@ -37,8 +37,8 @@ const News =(props) => {
     updateNews();
     document.title =(!(props.category === 'general')) ?`NewsMonkey - ${capitalizeLetter(props.category)}`:`NewsMonkey - Get your daily does of News free!`;
   },[]);
-  const fetchMoreData = async () => {
-    setPage(page + 1 );
+const fetchMoreData = async () => {
+    setPage(page + 1);
     setLoading(true);
   let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
   let data = await fetch(url);
@@ -50,9 +50,12 @@ const News =(props) => {
 };
     return (
       <>
-          <h2 className="text-center" style={{marginTop: '60px'}}>NewsMonkey - Top headlines - {capitalizeLetter(props.category)}</h2>
+          <div class="text-center">
+          <img src={newsicon} class="rounded newslogo" alt="..."/>
+          </div>
+          <h2 className="text-center" style={{ fontSize: "30px",fontFamily: 'Lato, sans-serif'}}>NewsForYou - Top headlines - {capitalizeLetter(props.category)}</h2>
 
-          <InfiniteScroll
+      <InfiniteScroll
         dataLength={articles.length}
         next={fetchMoreData}
         hasMore={articles !== totalResults}

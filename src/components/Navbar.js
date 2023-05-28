@@ -6,8 +6,8 @@ const Navbar = () => {
     return (
       <nav className={`navbar navbar-dark fixed-top navbar-expand-lg bg-dark`}>
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            NewsMonkey
+          <Link className="navbar-brand" to="/" style={{fontFamily: 'Source Code Pro'}}>
+            NewsForYou
           </Link>
           <button
             className="navbar-toggler"
@@ -20,7 +20,7 @@ const Navbar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{fontFamily: 'sf mono, fira code, fira mono, roboto mono'}}>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item"><Link className="nav-link" to="/">
                 Home
